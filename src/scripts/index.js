@@ -1,6 +1,10 @@
 import '../styles/style.scss';
 import getUserInfos from './services';
 
+const name = global.document.getElementsByClassName('name')[0];
+const avatar = global.document.getElementsByClassName('avatar')[0];
+const repos = global.document.getElementsByClassName('repos')[0];
+
 const searchBtn = global.document.getElementsByClassName('search__btn')[0];
 const errorNotFound = global.document.getElementsByClassName(
   'error__notfound'
@@ -12,43 +16,43 @@ function searchUser() {
   )[0].value;
 
   if (searchInpuValue === '') {
-    alert('oi');
+    alert('Please, enter the user name');
   } else {
-    const name = global.document.getElementsByClassName('name')[0];
-    const repos = global.document.getElementsByClassName('repos')[0];
-
     getUserInfos(searchInpuValue)
-      .then(response => {
+      .then((response) => {
         if (response.status === 403) {
           errorNotFound.classList.add('active');
         } else {
-          response.json();
+          return response.json();
         }
       })
-      .then(data => {
+
+      .then((data) => {
         name.innerHTML = data.name;
+        avatar.src = data.avatar_url;
+        avatar.classList.add('active');
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
 
     getUserInfos(`${searchInpuValue}/repos`)
-      .then(response => {
+      .then((response) => {
         if (response.status === 403) {
           errorNotFound.classList.add('active');
         } else {
-          response.json();
+          return response.json();
         }
       })
-      .then(data => {
-        repos.innerHTML = `Repositorios ${data.map(
-          repo =>
+      .then((data) => {
+        repos.innerHTML = data.map(
+          (repo) =>
             `<li class="repos-item"><a href="${repo.html_url}">${
               repo.name
-            }</a></l>`
-        )}`;
+            }</a></li>`
+        );
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   }
