@@ -1,0 +1,16 @@
+.wrappper {
+  text-align: center;
+}
+
+.repos-item {
+  list-style: none;
+  padding-top: 10px;
+}
+
+.error__notfound {
+  display: none;
+
+  &.active {
+    display: block;
+  }
+}
