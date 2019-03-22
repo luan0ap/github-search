@@ -15,7 +15,7 @@ function searchUser() {
     'search-input'
   )[0].value;
 
-  if (searchInpuValue === '') {
+  if (searchInpuValue) {
     alert('Please, enter the user name');
   } else {
     getUserInfos(searchInpuValue)
@@ -47,9 +47,11 @@ function searchUser() {
       .then((data) => {
         repos.innerHTML = data.map(
           (repo) =>
-            `<li class="repos-item"><a href="${repo.html_url}">${
-              repo.name
-            }</a></li>`
+            `<li class="repos-item">
+              <a href="${repo.html_url}">
+                ${repo.name}
+              </a>
+             </li>`
         );
       })
       .catch((error) => {
@@ -58,4 +60,4 @@ function searchUser() {
   }
 }
 
-searchBtn.addEventListener('click', () => searchUser());
+searchBtn.addEventListener('click', searchUser);
